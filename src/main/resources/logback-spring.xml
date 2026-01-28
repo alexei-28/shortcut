@@ -9,7 +9,7 @@
     <!-- Console Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{dd.MM.yyyy HH:mm:ss.SSS} %highlight(%-5level) [%thread] %logger.%M\(%class{0}.java:%line\) %n    %msg%n</pattern>
+            <pattern>%d{dd.MM.yyyy HH:mm:ss.SSS} %highlight(%-5level) [%thread] %logger{35}.%M\(%class{0}.java:%line\) %n    %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -23,11 +23,12 @@
         </rollingPolicy>
 
         <encoder>
-            <pattern>%d{dd.MM.yyyy HH:mm:ss.SSS} %-5level [%thread] %logger.%M\(%class{0}.java:%line\) %n    %msg%n</pattern>
+            <pattern>%d{dd.MM.yyyy HH:mm:ss.SSS} %-5level [%thread] %logger{35}.%M\(%class{0}.java:%line\) %n    %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
-
+    <logger name="javax.management" level="OFF" additivity="false"/>
+    <logger name="org.apache.kafka" level="OFF" additivity="false"/>
     <logger name="org.springframework" level="OFF" additivity="false"/>
     <!-- Root logger -->
     <root level="ALL">
