@@ -18,4 +18,10 @@ repos:
     hooks:
       - id: google-java-formatter
       - id: commitlint
+        stages: [ commit-msg ]
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.0.0
+    hooks:
+      - id: conventional-pre-commit # Ensures commit message matches conventional commits
         stages: [commit-msg]
+        args: [feat, fix, chore, docs, style, refactor, test, perf]

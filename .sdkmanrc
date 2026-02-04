@@ -9,5 +9,5 @@
 # Java SE 8  = 52 (0x34 hex)
 #
 
-java=25.0.1-oracle
+java=25.0.2-oracle
 gradle=9.3.0

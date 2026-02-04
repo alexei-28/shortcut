@@ -18,14 +18,18 @@ repositories {
     mavenCentral()
 }
 
-val jsonVersion = "20250107"
+springBoot {
+    mainClass.set("com.gmail.alexei28.shortcut.ShortcutApplication")
+}
 
 dependencies {
     implementation("org.apache.kafka:kafka-clients")
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.json:json:${jsonVersion}")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.kafka:spring-kafka")
+
     testImplementation("org.assertj:assertj-core")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation ("org.springframework.kafka:spring-kafka-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

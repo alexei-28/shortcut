@@ -28,7 +28,7 @@
         </encoder>
     </appender>
     <logger name="javax.management" level="OFF" additivity="false"/>
-    <logger name="org.apache.kafka" level="OFF" additivity="false"/>
+    <logger name="org.apache.kafka" level="debug" additivity="true"/>
     <logger name="org.springframework" level="OFF" additivity="false"/>
     <!-- Root logger -->
     <root level="ALL">
