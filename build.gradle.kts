@@ -18,11 +18,12 @@ repositories {
     mavenCentral()
 }
 
+val jsonVersion = "20250107"
 
 dependencies {
     implementation("org.apache.kafka:kafka-clients")
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.json:json:20250107")
+    implementation("org.json:json:${jsonVersion}")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.assertj:assertj-core")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
