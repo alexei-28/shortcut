@@ -9,17 +9,15 @@ import org.slf4j.LoggerFactory;
 
 public class KafkaClientProducer {
   private final Properties kafkaProps = new Properties();
-  private static final String TOPIC = "sandbox";
+  private static final String TOPIC = "test-topic";
   private static final String MY_KEY = "MyKey";
   private static final int PARTITION_0 = 0;
-  private static final int PARTITION_1 = 1;
-  private static final int PARTITION_2 = 2;
 
   private static final Logger logger = LoggerFactory.getLogger(KafkaClientProducer.class);
 
   private void initProducerConfig() {
     kafkaProps.put(
-        ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
+        ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092,localhost:9093,localhost:9094");
     // Поскольку мы планируем использовать строки для ключа и значения сообщения, воспользуемся
     // встроенным типом StringSerializer.
     kafkaProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
@@ -28,7 +26,7 @@ public class KafkaClientProducer {
 
   private void initProducerConfigWithTransactions() {
     kafkaProps.put(
-        ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
+        ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092,localhost:9093,localhost:9094");
     // Поскольку мы планируем использовать строки для ключа и значения сообщения, воспользуемся
     // встроенным типом StringSerializer.
     kafkaProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());

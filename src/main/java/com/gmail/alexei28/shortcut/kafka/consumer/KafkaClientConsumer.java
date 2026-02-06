@@ -17,7 +17,7 @@ public class KafkaClientConsumer {
   private KafkaConsumer<String, String> kafkaConsumer;
   private final Map<String, Integer> custCountryMap = new HashMap<>();
   private final Properties kafkaProps = new Properties();
-  private static final String TOPIC = "sandbox";
+  private static final String TOPIC = "test-topic";
   private static final String MY_KEY = "MyKey";
   private static final int PARTITION_0 = 0;
   private static final int PARTITION_1 = 1;
@@ -26,7 +26,7 @@ public class KafkaClientConsumer {
 
   private void initConsumerConfig() {
     kafkaProps.put(
-        ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
+        ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092,localhost:9093,localhost:9094");
     // Поскольку мы планируем использовать строки для ключа и значения сообщения, воспользуемся
     // встроенным типом StringSerializer.
     kafkaProps.put(
@@ -64,7 +64,7 @@ public class KafkaClientConsumer {
     */
     try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(kafkaProps)) {
       consumer.subscribe(Pattern.compile(TOPIC), new MyConsumerRebalanceListener());
-      ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(1000));
+      ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(5000));
       StreamSupport.stream(consumerRecords.spliterator(), false)
           .forEach(
               consumerRecord ->

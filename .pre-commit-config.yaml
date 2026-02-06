@@ -17,7 +17,7 @@ repos:
     rev: v0.4
     hooks:
       - id: google-java-formatter
-      - id: commitlint
+      - id: commitlint # download from DockerHub: extenda/commitlint
         stages: [ commit-msg ]
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v4.0.0

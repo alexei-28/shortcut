@@ -14,26 +14,25 @@
     </appender>
 
     <!-- File Appender with rolling policy -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${LOG_FILE}</file>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/application.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-
+        <!-- Do not append to existing log file, start fresh each time -->
+        <append>false</append>
         <encoder>
             <pattern>%d{dd.MM.yyyy HH:mm:ss.SSS} %-5level [%thread] %logger{35}.%M\(%class{0}.java:%line\) %n    %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
-    <logger name="javax.management" level="OFF" additivity="false"/>
-    <logger name="org.apache.kafka" level="debug" additivity="true"/>
-    <logger name="org.springframework" level="OFF" additivity="false"/>
+    <logger name="io.micrometer.common" level="off" additivity="false"/>
+    <logger name="io.micrometer.observation" level="off" additivity="false"/>
+    <logger name="javax.management" level="off" additivity="false"/>
+    <logger name="org.apache.kafka" level="info" additivity="false"/>
+    <logger name="org.springframework" level="off" additivity="false"/>
+    <logger name="org.springframework.kafka" level="info" additivity="false"/>
     <!-- Root logger -->
     <root level="ALL">
         <appender-ref ref="CONSOLE"/>
-        <!--<appender-ref ref="FILE"/>-->
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>
