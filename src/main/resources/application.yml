@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: shortcut
+  #  threads:
+  #    virtual:
+  #      enabled: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: test-group
+#    producer:
+#      properties:
+#        batch.size: 100
+#    listener:
+#      ack-mode: MANUAL_IMMEDIATE
+
+logging.level:
+  org.springframework.kafka: info
