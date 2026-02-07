@@ -1,0 +1,90 @@
+# Docker Compose file to set up a Kafka cluster with 3 brokers and Kafka UI.
+# Download provectuslabs/kafka-ui from https://hub.docker.com/r/provectuslabs/kafka-ui
+#
+# Run by the next command:
+#  docker compose -f kafka-docker-compose.yml up -d
+
+# After running the command, you can access Kafka UI at http://localhost:8080
+# and connect to the Kafka cluster using the bootstrap servers: kafka1:9092,kafka2:9093,kafka3:9094.
+# Inside Docker container Kafka locate on the path /opt/kafka/
+#
+# Here use confluentinc/cp-kafka
+# The confluentinc/cp-kafka is a Docker image provided by Confluent that contains a fully functional version of Apache Kafka,
+# packaged with additional tools to make it work seamlessly in cloud and containerized environments.
+# It is arguably the most popular way to run Kafka in Docker, especially for developers working with Java and Spring Boot.
+name: shortcut-kafka
+
+services:
+
+  # Instance of Kafka broker with ID 1
+  kafka1:
+    image: confluentinc/cp-kafka:8.1.0
+    ports:
+      - "9092:9092"
+    restart: on-failure
+    environment:
+      KAFKA_NODE_ID: 1
+      # Only for test. In production, you should separate broker and controller roles.
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka1:29093,2@kafka2:29093,3@kafka3:29093'
+      KAFKA_LISTENERS: 'PLAINTEXT://kafka1:29092,CONTROLLER://kafka1:29093,PLAINTEXT_HOST://0.0.0.0:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka1:29092,PLAINTEXT_HOST://localhost:9092'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+
+  # Instance of Kafka broker with ID 2
+  kafka2:
+    image: confluentinc/cp-kafka:8.1.0
+    ports:
+      - "9093:9093"
+    restart: on-failure
+    environment:
+      KAFKA_NODE_ID: 2
+      # Only for test. In production, you should separate broker and controller roles.
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka1:29093,2@kafka2:29093,3@kafka3:29093'
+      KAFKA_LISTENERS: 'PLAINTEXT://kafka2:29092,CONTROLLER://kafka2:29093,PLAINTEXT_HOST://0.0.0.0:9093'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka2:29092,PLAINTEXT_HOST://localhost:9093'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+
+  # Instance of Kafka broker with ID 3
+  kafka3:
+    image: confluentinc/cp-kafka:8.1.0
+    ports:
+      - "9094:9094"
+    restart: on-failure
+    environment:
+      KAFKA_NODE_ID: 3
+      # Only for test. In production, you should separate broker and controller roles.
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka1:29093,2@kafka2:29093,3@kafka3:29093'
+      KAFKA_LISTENERS: 'PLAINTEXT://kafka3:29092,CONTROLLER://kafka3:29093,PLAINTEXT_HOST://0.0.0.0:9094'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka3:29092,PLAINTEXT_HOST://localhost:9094'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+
+  # Kafka UI to manage and monitor the Kafka cluster
+  kafka-ui:
+    image: provectuslabs/kafka-ui:v0.7.2
+    container_name: kafka-ui
+    hostname: kafka-ui
+    ports:
+      - 8080:8080
+    depends_on:
+      - kafka1
+      - kafka2
+      - kafka3
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'
+    volumes:
+      - ./kafka-ui-config.yml:/etc/kafkaui/dynamic_config.yaml

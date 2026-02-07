@@ -1,12 +1,14 @@
-default_stages: [commit]
+default_stages: [pre-commit]
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
+      - id: trailing-whitespace    # Removes extra spaces at the end of lines
+      - id: end-of-file-fixer      # Ensures files end with a newline
+      - id: check-yaml             # Validates YAML syntax
+      - id: check-added-large-files # Prevents committing huge files (>500kb)
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.5
+    rev: v1.5.6
     hooks:
       - id: remove-crlf
       - id: remove-tabs
@@ -15,10 +17,11 @@ repos:
     rev: v0.4
     hooks:
       - id: google-java-formatter
-      - id: commitlint
-        stages: [commit-msg]
-  - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.35.1
+      - id: commitlint # download from DockerHub: extenda/commitlint
+        stages: [ commit-msg ]
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.0.0
     hooks:
-      - id: yamllint
-        args: [ --strict, -c=.yamllint ]
+      - id: conventional-pre-commit # Ensures commit message matches conventional commits
+        stages: [commit-msg]
+        args: [feat, fix, chore, docs, style, refactor, test, perf]
